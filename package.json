@@ -12,7 +12,9 @@
   ],
   "repository": "http://github.com/craigspaeth/sentry",
   "dependencies": {
-    "coffee-script": "*"
+    "coffee-script": "*",
+    "underscore": "*",
+    "file": "*"
   },
   "devDependencies": {
     "jasmine-node": "*"
