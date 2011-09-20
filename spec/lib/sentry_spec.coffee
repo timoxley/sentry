@@ -16,7 +16,7 @@ describe 'sentry.watch', ->
       catch e
         expect(e.message).toEqual "SENTRY: File 'garbage' does not exist!"
     
-    xit 'runs a function when the file is changed', ->
+    it 'runs a function when the file is changed', ->
       done = false; waitsFor -> done
       fs.writeFileSync __rootdir + '/spec/fixtures/string/foo.js', 'Blank'
       sentry.watch __rootdir + '/spec/fixtures/string/foo.js', ->
@@ -24,7 +24,7 @@ describe 'sentry.watch', ->
         done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/string/foo.js', 'Hello World'
       
-    xit 'runs a task when the file is changed', ->
+    it 'runs a task when the file is changed', ->
       done = false; waitsFor (-> done), null, 10000
       fs.writeFileSync __rootdir + '/spec/fixtures/string/bar.js', 'Blank'
       sentry.watch __rootdir + '/spec/fixtures/string/bar.js', 'cake stub', (err, stdout, stderr) ->
@@ -32,7 +32,7 @@ describe 'sentry.watch', ->
         done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/string/bar.js', 'Hello World'
       
-    xit 'passes the filename to the callback'  , ->
+    it 'passes the filename to the callback'  , ->
       done = false; waitsFor -> done
       fs.writeFileSync __rootdir + '/spec/fixtures/string/baz.js', 'Blank'
       sentry.watch __rootdir + '/spec/fixtures/string/baz.js', (filename) ->
@@ -40,7 +40,7 @@ describe 'sentry.watch', ->
         done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/string/baz.js', 'Hello World'
       
-  xdescribe 'given a single wild card', ->
+  describe 'given a single wild card', ->
     
     it 'runs a function when a file is changed', ->
       done = false; waitsFor -> done
@@ -86,7 +86,7 @@ describe 'sentry.watch', ->
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/wildcard/qux.js', 'Hello World'
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/wildcard/baz.coffee', 'Hello World'
       
-  xdescribe 'given a recursive wild card', ->
+  describe 'given a recursive wild card', ->
     
     it 'runs a function when a deeply nested file is changed', ->
       done = false; waitsFor -> done
@@ -133,29 +133,13 @@ describe 'sentry.watch', ->
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/deep/baz.coffee', 'Hello World'
       
       
-  xdescribe 'given a regex', ->
+describe 'sentry.watchRegExp', ->
+
+  it 'runs a function when a deeply nested file that matches the regex changes', ->
+    done = false; waitsFor -> done
+    fs.writeFileSync __rootdir + '/spec/fixtures/regex/deep/foo.txt', 'Blank'
+    sentry.watchRegExp '../fixtures/regex/', /txt$/, ->
+      expect(true).toBeTruthy()
+      done = true
+    _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/regex/deep/foo.txt', 'Hello World'
   
-    xit 'runs a function when a deeply nested file that matches the regex changes', ->
-      done = false; waitsFor -> done
-      fs.writeFileSync __rootdir + '/spec/fixtures/regex/deep/foo.js', 'Blank'
-      regex = new RegExp "^#{__rootdir},js$"
-      sentry.watch regex, ->
-        expect(true).toBeTruthy()
-        done = true
-      _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/regex/deep/foo.js', 'Hello World'
-      
-    xit 'runs a function when a not so deeply nested file is changed', ->
-      done = false; waitsFor (-> done), null, 10000
-      fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/bar.js', 'Blank'
-      sentry.watch __rootdir + '/spec/fixtures/deepwildcard/**/*.js', 'cake stub', (err, stdout, stderr) ->
-        expect(stdout.indexOf 'foo').toNotEqual -1
-        done = true
-      _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/bar.js', 'Hello World'
-      
-    xit 'it passes the filename to the callback', ->
-      done = false; waitsFor -> done
-      fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/deep/foo.js', 'Blank'
-      sentry.watch __rootdir + '/spec/fixtures/deepwildcard/**/*', (filename) ->
-        expect(filename.match(/foo|baz|qux/)).toBeTruthy() 
-        done = true
-      _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/deep/foo.js', 'Hello World'

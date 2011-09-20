@@ -12,16 +12,8 @@ path = require 'path'
   
   callback = task if _.isFunction task
   
-  # Recursively find anything that matches the regex
-  if _.isRegExp file
-    # fileUtil.walkSync root, (root, flds, fls) ->
-    #   root = (if root.charAt(root.length - 1) is '/' then root else root + '/')
-    #   for file in fls
-    #     if file.match(new RegExp ext + '$')? and _.indexOf(files, root + file) is -1
-    #       files.push(root + file)
-  
   # If the file is a string without wildcards, watch just that file
-  else if file.indexOf('/*') isnt -1
+  if file.indexOf('/*') isnt -1
     files = findWildcardFiles file
     watchFile(file, task, callback) for file in files
     
@@ -29,7 +21,26 @@ path = require 'path'
   else
     throw new Error("SENTRY: File '#{file}' does not exist!") unless path.existsSync file
     watchFile(file, task, callback)
-      
+
+# sentry.watchRegExp(root, regex, [task], callback)
+# If passed a task callback is passed (err, stdout, stderr)
+# If task is ommitted then callback is passed (filename)
+@watchRegExp = (root, regex, task, callback) ->
+  
+  callback = task if _.isFunction task
+  
+  # Recursively find anything that matches the regex
+  root = path.resolve(path.dirname(module.parent.filename), root)
+  files = []
+  fileUtil.walkSync root, (rt, flds, fls) ->
+    for fl in fls
+      flPath = rt + '/' + fl
+      files.push(flPath) if flPath.match regex
+  files
+  
+  # Watch the matches files
+  watchFile(file, task, callback) for file in files
+  
 # Watch a file for changes and execute a callback or child process
 watchFile = (file, task, callback) ->
   fs.watchFile file, (curr, prev) ->
