@@ -1,6 +1,6 @@
 # Sentry
 
-## **sentry is currently in an early alpha development stage. Please feel free to take a look around the source code to get an idea of where the project is going.**
+**sentry is currently in an early alpha development stage. Please feel free to take a look around the source code to get an idea of where the project is going.**
 
 Sentry is a simple node tool to watch for file changes (using a path, wildcards, or a regex) and execute a function or shell command.
 

@@ -4,3 +4,5 @@ _done = false
 @runAsync = ->
   beforeEach -> _done = false
   afterEach -> waitsFor -> _done
+  
+global.__rootdir = __dirname.split('/').slice(0, -2).join('/')

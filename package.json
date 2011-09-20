@@ -12,7 +12,6 @@
   ],
   "repository": "http://github.com/craigspaeth/sentry",
   "dependencies": {
-    "underscore": "*",
     "coffee-script": "*"
   },
   "devDependencies": {
