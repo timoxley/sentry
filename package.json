@@ -1,5 +1,5 @@
 {
-  "name": "Sentry",
+  "name": "sentry",
   "version": "0.1.0",
   "author": "Craig Spaeth <craigspaeth@gmail.com> (http://craigspaeth.com)",
   "description": "Watch files (using a path, wildcards, or a regex) and execute a function or shell command.",
