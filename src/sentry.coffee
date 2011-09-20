@@ -51,7 +51,9 @@ watchFile = (file, task, callback) ->
     else
       callback file
   
-# Given a file string such as /fld/**/* or /fld/*.coffee return an array of file strings
+# Given a filename such as /fld/**/* return all recursive files
+# or given a filename such as /fld/* return all files one directory deep.
+# Limit by extension via /fld/**/*.coffee
 @findWildcards = (file) ->
   
   files = []

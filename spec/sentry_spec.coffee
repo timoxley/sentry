@@ -6,7 +6,7 @@ spawn = require('child_process').spawn
 path = require 'path'
 _ = require 'underscore'
 
-xdescribe 'sentry.watch', ->
+describe 'sentry.watch', ->
   
   describe 'given a relative file string', ->
     
@@ -133,7 +133,7 @@ xdescribe 'sentry.watch', ->
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/deep/baz.coffee', 'Hello World'
       
       
-xdescribe 'sentry.watchRegExp', ->
+describe 'sentry.watchRegExp', ->
 
   it 'runs a function when a deeply nested file that matches the regex changes', ->
     done = false; waitsFor -> done
