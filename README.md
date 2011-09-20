@@ -1,6 +1,6 @@
 # Sentry
 
-Sentry is a simple node tool to watch for file changes (using a path, wildcards, or regexes) and execute a function or shell command.
+Sentry is a simple node tool to watch for file changes (using a path, wildcards, or regexes) and execute a function or shell command. It's like a [watchr](https://github.com/mynyml/watchr) or [guard](https://github.com/guard/guard) for node.
 
 ## Installation
 
