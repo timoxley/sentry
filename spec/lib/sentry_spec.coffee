@@ -124,3 +124,31 @@ describe 'sentry.watch', ->
           done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/deep/qux.js', 'Hello World'
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/deep/baz.coffee', 'Hello World'
+      
+      
+  xdescribe 'given a regex', ->
+  
+    xit 'runs a function when a deeply nested file that matches the regex changes', ->
+      done = false; waitsFor -> done
+      fs.writeFileSync __rootdir + '/spec/fixtures/regex/deep/foo.js', 'Blank'
+      regex = new RegExp "^#{__rootdir},js$"
+      sentry.watch regex, ->
+        expect(true).toBeTruthy()
+        done = true
+      _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/regex/deep/foo.js', 'Hello World'
+      
+    xit 'runs a function when a not so deeply nested file is changed', ->
+      done = false; waitsFor (-> done), null, 10000
+      fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/bar.js', 'Blank'
+      sentry.watch __rootdir + '/spec/fixtures/deepwildcard/**/*.js', 'cake stub', (err, stdout, stderr) ->
+        expect(stdout.indexOf 'foo').toNotEqual -1
+        done = true
+      _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/bar.js', 'Hello World'
+      
+    xit 'it passes the filename to the callback', ->
+      done = false; waitsFor -> done
+      fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/deep/foo.js', 'Blank'
+      sentry.watch __rootdir + '/spec/fixtures/deepwildcard/**/*', (filename) ->
+        expect(filename.match(/foo|baz|qux/)).toBeTruthy() 
+        done = true
+      _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/deep/foo.js', 'Hello World'

@@ -11,8 +11,16 @@ exec = require('child_process').exec
   
   callback = task if _.isFunction task
   
+  # Recursively find anything that matches the regex
+  if _.isRegExp file
+    # fileUtil.walkSync root, (root, flds, fls) ->
+    #   root = (if root.charAt(root.length - 1) is '/' then root else root + '/')
+    #   for file in fls
+    #     if file.match(new RegExp ext + '$')? and _.indexOf(files, root + file) is -1
+    #       files.push(root + file)
+  
   # If the file is a string without wildcards, watch just that file
-  if file.indexOf('/*') is -1
+  else if file.indexOf('/*') is -1
     watchFile(file, task, callback)
   
   # Get the files we want to catch with the wildcards
