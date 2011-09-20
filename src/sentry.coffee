@@ -3,6 +3,7 @@ fileUtil = require 'file'
 _ = require 'underscore'
 fs = require 'fs'
 exec = require('child_process').exec
+path = require 'path'
 
 # sentry.watch(file, [task], callback)
 # If passed a task callback is passed (err, stdout, stderr)
@@ -20,13 +21,14 @@ exec = require('child_process').exec
     #       files.push(root + file)
   
   # If the file is a string without wildcards, watch just that file
-  else if file.indexOf('/*') is -1
-    watchFile(file, task, callback)
-  
-  # Get the files we want to catch with the wildcards
-  else
+  else if file.indexOf('/*') isnt -1
     files = findWildcardFiles file
     watchFile(file, task, callback) for file in files
+    
+  # Get the files we want to catch with the wildcards
+  else
+    throw new Error("SENTRY: File '#{file}' does not exist!") unless path.existsSync file
+    watchFile(file, task, callback)
       
 # Watch a file for changes and execute a callback or child process
 watchFile = (file, task, callback) ->

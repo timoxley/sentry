@@ -3,13 +3,20 @@ sentry = require '../../src/sentry.coffee'
 fs = require 'fs'
 exec = require('child_process').exec
 spawn = require('child_process').spawn
+path = require 'path'
 _ = require 'underscore'
 
 describe 'sentry.watch', ->
   
   describe 'given a relative file string', ->
     
-    it 'runs a function when the file is changed', ->
+    it 'throws an error if it cant find the file', ->
+      try
+        sentry.watch('garbage')
+      catch e
+        expect(e.message).toEqual "SENTRY: File 'garbage' does not exist!"
+    
+    xit 'runs a function when the file is changed', ->
       done = false; waitsFor -> done
       fs.writeFileSync __rootdir + '/spec/fixtures/string/foo.js', 'Blank'
       sentry.watch __rootdir + '/spec/fixtures/string/foo.js', ->
@@ -17,7 +24,7 @@ describe 'sentry.watch', ->
         done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/string/foo.js', 'Hello World'
       
-    it 'runs a task when the file is changed', ->
+    xit 'runs a task when the file is changed', ->
       done = false; waitsFor (-> done), null, 10000
       fs.writeFileSync __rootdir + '/spec/fixtures/string/bar.js', 'Blank'
       sentry.watch __rootdir + '/spec/fixtures/string/bar.js', 'cake stub', (err, stdout, stderr) ->
@@ -25,7 +32,7 @@ describe 'sentry.watch', ->
         done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/string/bar.js', 'Hello World'
       
-    it 'passes the filename to the callback'  , ->
+    xit 'passes the filename to the callback'  , ->
       done = false; waitsFor -> done
       fs.writeFileSync __rootdir + '/spec/fixtures/string/baz.js', 'Blank'
       sentry.watch __rootdir + '/spec/fixtures/string/baz.js', (filename) ->
@@ -33,7 +40,7 @@ describe 'sentry.watch', ->
         done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/string/baz.js', 'Hello World'
       
-  describe 'given a single wild card', ->
+  xdescribe 'given a single wild card', ->
     
     it 'runs a function when a file is changed', ->
       done = false; waitsFor -> done
@@ -79,7 +86,7 @@ describe 'sentry.watch', ->
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/wildcard/qux.js', 'Hello World'
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/wildcard/baz.coffee', 'Hello World'
       
-  describe 'given a recursive wild card', ->
+  xdescribe 'given a recursive wild card', ->
     
     it 'runs a function when a deeply nested file is changed', ->
       done = false; waitsFor -> done
