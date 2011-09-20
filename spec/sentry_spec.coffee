@@ -1,12 +1,12 @@
-require '../helpers/spec_helper.coffee'
-sentry = require '../../src/sentry.coffee'
+require './helpers/spec_helper.coffee'
+sentry = require '../src/sentry.coffee'
 fs = require 'fs'
 exec = require('child_process').exec
 spawn = require('child_process').spawn
 path = require 'path'
 _ = require 'underscore'
 
-describe 'sentry.watch', ->
+xdescribe 'sentry.watch', ->
   
   describe 'given a relative file string', ->
     
@@ -133,13 +133,38 @@ describe 'sentry.watch', ->
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/deep/baz.coffee', 'Hello World'
       
       
-describe 'sentry.watchRegExp', ->
+xdescribe 'sentry.watchRegExp', ->
 
   it 'runs a function when a deeply nested file that matches the regex changes', ->
     done = false; waitsFor -> done
     fs.writeFileSync __rootdir + '/spec/fixtures/regex/deep/foo.txt', 'Blank'
-    sentry.watchRegExp '../fixtures/regex/', /txt$/, ->
+    sentry.watchRegExp './fixtures/regex/', /txt$/, ->
       expect(true).toBeTruthy()
       done = true
     _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/regex/deep/foo.txt', 'Hello World'
-  
+    
+describe 'sentry.findWildcards', ->
+
+  it 'given a /* type wildcard finds files one directory deep', ->
+    equal = _.isEqual sentry.findWildcards(__rootdir + '/spec/fixtures/wildcard/*'), [
+      '/Users/Craig/sentry/spec/fixtures/wildcard/bar.js',
+      '/Users/Craig/sentry/spec/fixtures/wildcard/baz.coffee',
+      '/Users/Craig/sentry/spec/fixtures/wildcard/foo.js',
+      '/Users/Craig/sentry/spec/fixtures/wildcard/qux.js'
+    ]
+    expect(equal).toBeTruthy()
+    
+  it 'given a /**/* type wildcard finds files recursive', ->
+    equal = _.isEqual sentry.findWildcards(__rootdir + '/spec/fixtures/deepwildcard/**/*'), [ 
+      '/Users/Craig/sentry/spec/fixtures/deepwildcard/bar.js',
+      '/Users/Craig/sentry/spec/fixtures/deepwildcard/deep/baz.coffee',
+      '/Users/Craig/sentry/spec/fixtures/deepwildcard/deep/foo.js',
+      '/Users/Craig/sentry/spec/fixtures/deepwildcard/deep/qux.js'
+    ]
+    expect(equal).toBeTruthy()
+    
+  it 'given a /**/*.coffee type wildcard finds files with only that extension', ->
+    equal = _.isEqual sentry.findWildcards(__rootdir + '/spec/fixtures/deepwildcard/**/*.coffee'), [
+      '/Users/Craig/sentry/spec/fixtures/deepwildcard/deep/baz.coffee'
+    ]
+    expect(equal).toBeTruthy()

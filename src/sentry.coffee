@@ -8,13 +8,13 @@ path = require 'path'
 # sentry.watch(file, [task], callback)
 # If passed a task callback is passed (err, stdout, stderr)
 # If task is ommitted then callback is passed (filename)
-@watch = (file, task, callback) ->
+@watch = (file, task, callback) =>
   
   callback = task if _.isFunction task
   
   # If the file is a string without wildcards, watch just that file
   if file.indexOf('/*') isnt -1
-    files = findWildcardFiles file
+    files = @findWildcards file
     watchFile(file, task, callback) for file in files
     
   # Get the files we want to catch with the wildcards
@@ -52,7 +52,7 @@ watchFile = (file, task, callback) ->
       callback file
   
 # Given a file string such as /fld/**/* or /fld/*.coffee return an array of file strings
-findWildcardFiles = (file) ->
+@findWildcards = (file) ->
   
   files = []
   
