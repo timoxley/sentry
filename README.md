@@ -77,6 +77,6 @@ sentry.watchRegExp '../tests/', /^test_,.coffee$/, ->
 
 ## To run tests
 
-nap uses [Jasmine-node](https://github.com/mhevery/jasmine-node) for testing. Simply run the jasmine-node command with the coffeescript flag
+Sentry uses [Jasmine-node](https://github.com/mhevery/jasmine-node) for testing. Simply run the jasmine-node command with the coffeescript flag
 
     jasmine-node spec --coffee
