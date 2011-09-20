@@ -11,19 +11,19 @@ Sentry is a simple node tool to watch for file changes (using a path, wildcards,
 ````coffeescript
 sentry = require 'sentry'
 
-# Watch changes relative in file.js
+# Watch changes in file.js
 sentry.watch 'file.js', (file) -> console.log 'A change has been made in #{file}'
 
-# Watch changes one directory deep
+# Watch changes on any file ending in .coffee one directory deep
 sentry.watch 'fld/*.coffee', ->
 
 # Watch changes recursively on any files 
 sentry.watch 'fld/**/*', ->
 
 # Watch files recursively that match a regex
-sentry.watchRegExp /regex/, ->
+sentry.watchRegExp 'fld/', /regex/, ->
 
-# If you pass a string instead of a function it'll execute that shell command
+# If you pass a string instead of a function it'll execute that child process
 sentry.watch 'file.coffee', 'coffee -c'
 ````
 
