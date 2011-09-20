@@ -1,8 +1,6 @@
 # Sentry
 
-**sentry is currently in an early alpha development stage. Please feel free to take a look around the source code to get an idea of where the project is going.**
-
-Sentry is a simple node tool to watch for file changes (using a path, wildcards, or a regex) and execute a function or shell command.
+Sentry is a simple node tool to watch for file changes (using a path, wildcards, or regexes) and execute a function or shell command.
 
 ## Installation
 
@@ -37,11 +35,15 @@ Sentry comes with two methods `watch` and `watchRegExp`.
 
 Optionally you may pass a task which will send `(err, stdout, stderr)` as the arguments to the callback.
 
-`sentry.watch 'file.js', 'coffee -c', (err, stdout, stderr) ->`
+````coffeescript
+sentry.watch 'file.js', 'coffee -c', (err, stdout, stderr) ->
+````
 
-Or simply just a callback and Sentry will pass filename to the callback
+Or simply just a callback and Sentry will pass the filename to the callback
 
-`sentry.watch 'file.js', (filename) ->`
+````coffeescript
+sentry.watch 'file.js', (filename) ->
+````
 
 Feel free to use wildcards with extensions
 
@@ -69,7 +71,7 @@ Just like sentry.watch but instead you must pass a root directory and regular ex
 # Find all files in this folder that end in .coffee
 sentry.watchRegExp '', /\.coffee$/, ->
 
-# Find all files in the folder 'test' next to this file that begin with test and end in .coffee
+# Find all files in the adjacent 'test' folder that begin with test and end in .coffee
 sentry.watchRegExp '../tests/', /^test_,.coffee$/, ->
 ````
 
