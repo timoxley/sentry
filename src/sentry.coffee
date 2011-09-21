@@ -46,8 +46,10 @@ watchFile = (file, task, callback) ->
   fs.watchFile file, (curr, prev) ->
     return if curr.size is prev.size and curr.mtime.getTime() is prev.mtime.getTime() 
     if _.isString task
-      exec 'cake stub', (err, stdout, stderr) -> 
-        callback(err, stdout, stderr)
+      exec task, (err, stdout, stderr) ->
+        console.log stdout
+        console.log err if err?
+        callback(err, stdout, stderr) if callback?
     else
       callback file
   
