@@ -12,7 +12,7 @@ Sentry is a simple node tool to watch for file changes (using a path, wildcards,
 sentry = require 'sentry'
 
 # Watch changes in file.js
-sentry.watch 'file.js', (file) -> console.log "A change has been made in #{file}"
+sentry.watch 'file.js', (filename) -> console.log "A change has been made in #{file}"
 
 # Watch changes on any file ending in .coffee one directory deep
 sentry.watch 'fld/*.coffee', ->
