@@ -11,6 +11,7 @@ path = require 'path'
 # @param {String} filename File path to watch, optionally pass /* or /**/* wildcards
 # @param {String} [task] Optionally run a child process
 # @param {Function} callback
+
 @watch = (filename, task, callback) =>
   
   callback = task if _.isFunction task
@@ -33,6 +34,7 @@ path = require 'path'
 # @param {RegExp} regex
 # @param {String} [task] Optionally run a child process
 # @param {Function} callback
+
 @watchRegExp = (dir, regex, task, callback) ->
   
   callback = task if _.isFunction task
@@ -54,6 +56,7 @@ path = require 'path'
 # @param {String} filename
 # @param {String} [task]
 # @param {Function} callback
+
 watchFile = (filename, task, callback) ->
   fs.watchFile filename, (curr, prev) ->
     return if curr.size is prev.size and curr.mtime.getTime() is prev.mtime.getTime() 
@@ -71,6 +74,7 @@ watchFile = (filename, task, callback) ->
 # 
 # @param {String} filename
 # @return {Array} An array of file path strings
+
 @findWildcards = (filename) ->
   
   files = []
