@@ -28,7 +28,7 @@ describe 'sentry.watch', ->
       done = false; waitsFor (-> done), null, 10000
       fs.writeFileSync __rootdir + '/spec/fixtures/string/bar.js', 'Blank'
       sentry.watch __rootdir + '/spec/fixtures/string/bar.js', 'cake stub', (err, stdout, stderr) ->
-        expect(stdout.indexOf 'foo').toNotEqual -1
+        expect(stdout.indexOf 'stub').toNotEqual -1
         done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/string/bar.js', 'Hello World'
       
@@ -54,7 +54,7 @@ describe 'sentry.watch', ->
       done = false; waitsFor (-> done), null, 10000
       fs.writeFileSync __rootdir + '/spec/fixtures/wildcard/bar.js', 'Blank'
       sentry.watch __rootdir + '/spec/fixtures/wildcard/*', 'cake stub', (err, stdout, stderr) ->
-        expect(stdout.indexOf 'foo').toNotEqual -1
+        expect(stdout.indexOf 'stub').toNotEqual -1
         done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/wildcard/bar.js', 'Hello World'
       
@@ -100,7 +100,7 @@ describe 'sentry.watch', ->
       done = false; waitsFor (-> done), null, 10000
       fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/bar.js', 'Blank'
       sentry.watch __rootdir + '/spec/fixtures/deepwildcard/**/*.js', 'cake stub', (err, stdout, stderr) ->
-        expect(stdout.indexOf 'foo').toNotEqual -1
+        expect(stdout.indexOf 'stub').toNotEqual -1
         done = true
       _.defer -> fs.writeFileSync __rootdir + '/spec/fixtures/deepwildcard/bar.js', 'Hello World'
       
