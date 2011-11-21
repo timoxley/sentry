@@ -10,7 +10,10 @@
     "wildcards",
     "recursive"
   ],
-  "repository": "http://github.com/craigspaeth/sentry",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/craigspaeth/sentry.git"
+  },
   "dependencies": {
     "coffee-script": "*",
     "underscore": "*",
@@ -21,6 +24,10 @@
   },
   "main": "lib/sentry",
   "scripts": {
-    "install": "cake build"
+    "install": "cake build",
+    "test": "jasmine-node spec --coffee"
+  },
+  "engines": {
+    "node": "*"
   }
 }
